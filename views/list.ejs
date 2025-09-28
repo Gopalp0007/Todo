@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>Todo List</h1>
+  </header>
+
+  <main>
+    <form action="/add" method="POST">
+      <input type="text" name="ele1" placeholder="Enter task">
+      <select name="priority">
+        <option value="low">Low</option>
+        <option value="high">High</option>
+        <option value="urgent">Urgent</option>
+      </select>
+      <button type="submit">Add</button>
+    </form>
+
+    <ul>
+      <% items.forEach(item => { %>
+        <li>
+          <form action="/toggle" method="POST" style="display:inline;">
+            <input type="hidden" name="id" value="<%= item._id %>">
+            <button type="submit"><%= item.done ? "✅" : "⭕" %></button>
+          </form>
+
+          <span style="<%= item.done ? 'text-decoration:line-through;' : '' %>">
+            <%= item.text %> (<%= item.priority %>)
+          </span>
+
+          <form action="/delete" method="POST" style="display:inline;">
+            <input type="hidden" name="id" value="<%= item._id %>">
+            <button type="submit">🗑</button>
+          </form>
+
+          <form action="/edit" method="POST" style="display:inline;">
+            <input type="hidden" name="id" value="<%= item._id %>">
+            <input type="text" name="newText" placeholder="Edit task">
+            <button type="submit">✏️</button>
+          </form>
+        </li>
+      <% }) %>
+    </ul>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Todo App</p>
+  </footer>
+</body>
+</html>
